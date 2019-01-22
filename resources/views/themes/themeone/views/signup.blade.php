@@ -154,7 +154,7 @@
 						<label for="inputPassword" class="col-sm-4 col-form-label"><strong>*</strong>@lang('website.Cell phone')</label>
 						<div class="col-sm-8">
 							<input type="text" name="cellPhone" id="cellPhone" class="form-control field-validate"  value="{{ old('cellPhone') }}" onkeypress="return isNumberKey(event)">
-							<span class="help-block error-content" hidden>@lang('website.Please enter your Cell phone')</span>
+							<span class="help-block error-content" hidden>@lang('website.Please enter your cell phone')</span>
 						</div>
 					</div>
 
@@ -170,10 +170,17 @@
 
 					<div class="form-group row">
 						<label for="inputPassword" class="col-sm-4 col-form-label"><strong>*</strong>@lang('website.Machine Model')</label>
-						<div id="machine-section" class="col-sm-8">
+						<div id="manufacturers" class="col-sm-8">
 							<div class="col-sm-12" style="padding: 0; margin-bottom: 25px;">
-								<input type="text" name="machineModel[]" id="machineModel" class="form-control field-validate" style="display: inline; width: calc(100% - 35px);" value="{{ old('machineModel') }}">
-								<button type="button" id="btn-addMachine" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px;">+</button>
+								<div>
+									<label style="width: 100px;">Manufacturer</label>
+									<input type="text" name="manufacturer[]" id="manufacturer" class="form-control field-validate" style="display: inline; width: calc(100% - 38px - 100px);" value="{{ old('manufacturer') }}">
+									<button type="button" id="btn-addManufacturer" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px; margin-left: 3px;">+</button>
+								</div>
+								<div style="margin-top: 15px;">
+									<label style="width: 100px;">Model</label>
+									<input type="text" name="machineModel[]" id="machineModel" class="form-control field-validate" style="display: inline; width: calc(100% - 34px - 103px);" value="">
+								</div>
 							</div>
 							<span class="help-block error-content" hidden>@lang('website.Please enter your machine model')</span>
 						</div>
@@ -222,7 +229,7 @@
 <script src="{!! asset('resources/views/admin/plugins/jQuery/jquery.min.js') !!}"></script>
 <script type="text/javascript">
 
-	var $curMachineId = 1;
+	var $curManufacturerId = 1;
 
 	function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode
@@ -232,29 +239,35 @@
 	}
 
 	function addMachineModelField() {
-		var $machineSection = $('#machine-section');
-		$machineSection.append('<div id="machine' + $curMachineId + '" class="col-sm-12" style="padding: 0;  margin-bottom: 25px;">' +
-				'<input type="text" name="machineModel[]" id="machineModel' + $curMachineId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 35px);" value="{{ old('machineModel') }}">' +
-				'<button type="button" id="btn-removeMachine" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px;">-</button>' +
+		var $manufacturers = $('#manufacturers');
+		$manufacturers.append('<div id="manufacturer-info' + $curManufacturerId + '" class="col-sm-12" style="padding: 0;  margin-bottom: 25px;">' +
+				'<div>' + 
+					'<label style="width: 100px;">Manufacturer</label>' + 
+					'<input type="text" name="manufacturer[]" id="manufacturer' + $curManufacturerId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 38px - 100px);" value="{{ old('manufacturer') }}">' + 
+					'<button type="button" id="btn-removeManufacturer' + $curManufacturerId + '" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px; margin-left: 3px;">-</button>' + 
+				'</div>' + 
+				'<div style="margin-top: 15px;">' + 
+					'<label style="width: 100px;">Model</label>' + 
+					'<input type="text" name="machineModel[]" id="machineModel' + $curManufacturerId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 34px - 103px);" value="">' + 
+				'</div>' + 
 			'</div>');
-		$machineSection.change();
-		$curMachineId ++;
+		$manufacturers.change();
+		$curManufacturerId ++;
 
 		$("button").click(function() {
 			var id = $(this).attr("id");
-			if (id == "btn-removeMachine") {
-				var parentId = $(this).parent().attr("id");
-				$('#' + parentId).hide();
+			if (id.indexOf("btn-removeManufacturer") != -1) {
+				var parentId = $(this).parent().parent().attr("id");
+				$('#' + parentId).remove();
+				$curManufacturerId --;
 			}
 		});
 	}
 
 	$("button").click(function() {
 		var id = $(this).attr("id");
-		if (id == "btn-addMachine") {
+		if (id == "btn-addManufacturer") {
 			addMachineModelField();
-		} else if (id == "btn-removeMachine1") {
-			var parentId = $('#'+id).parent().attr("id");
 		}
 	});
 

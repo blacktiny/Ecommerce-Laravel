@@ -2011,7 +2011,7 @@ body[dir="ltr"] .breadcum-area {
 }
 
 .products-area .tab-content .owl-carousel .owl-stage-outer .owl-item .product .img-fluid {
-  width: 212px;
+  /* width: 212px; */
   max-width: none;
 }
 
@@ -8545,6 +8545,10 @@ input[type="button"].btn-block {
 
 .tab-content > .active {
   display: block;
+}
+
+.tab-content > .heightzero {
+  height: 0;
 }
 
 .navbar {

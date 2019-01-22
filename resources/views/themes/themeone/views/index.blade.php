@@ -290,17 +290,17 @@
                                 </div>
                                 <div class="buttons">
                                     @if($top_seller->products_type==0)
-                                        @if(!in_array($top_seller->products_id,$result['cartArray']))
+                                        <!-- @if(!in_array($top_seller->products_id,$result['cartArray']))
                                         @if($top_seller->defaultStock==0)
                                                 <button type="button" class="btn btn-block btn-danger" products_id="{{$top_seller->products_id}}">@lang('website.Out of Stock')</button>
-                                            @elseif($top_seller->products_min_order>1)
+                                            @elseif($top_seller->products_min_order>1) -->
                                                 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$top_seller->products_slug)}}">@lang('website.View Detail')</a>
-                                            @else 
+                                            <!-- @else 
                                             <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$top_seller->products_id}}">@lang('website.Add to Cart')</button>
                                             @endif
                                         @else
                                             <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                        @endif
+                                        @endif -->
                                     @elseif($top_seller->products_type==1)
                                         <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$top_seller->products_slug)}}">@lang('website.View Detail')</a>
                                     @elseif($top_seller->products_type==2)
@@ -326,7 +326,7 @@
                 @endif 
                 <!-- 1st tab --> 
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="special" role="tabpanel" aria-labelledby="special-tab">
+            <div role="tabpanel" class="tab-pane fade active heightzero" id="special" role="tabpanel" aria-labelledby="special-tab">
                 @if($result['special']['product_data'])
               <div id="owl_special" class="owl-carousel"> @if($result['special']['success']==1)
                 @foreach($result['special']['product_data'] as $key=>$special)
@@ -389,17 +389,17 @@
                         
                         <div class="buttons">
                         	 @if($special->products_type==0)
-                                @if(!in_array($special->products_id,$result['cartArray']))
+                                <!-- @if(!in_array($special->products_id,$result['cartArray']))
                                     @if($special->defaultStock==0)
                                         <button type="button" class="btn btn-block btn-danger" products_id="{{$special->products_id}}">@lang('website.Out of Stock')</button>
-                                    @elseif($special->products_min_order>1)
+                                    @elseif($special->products_min_order>1) -->
                                    		 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$special->products_slug)}}">@lang('website.View Detail')</a>
-                                    @else
+                                    <!-- @else
                                         <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$special->products_id}}">@lang('website.Add to Cart')</button>
                                     @endif
                                 @else
                                     <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                @endif
+                                @endif -->
                             @elseif($special->products_type==1)
                                 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$special->products_slug)}}">@lang('website.View Detail')</a>
                             @elseif($special->products_type==2)
@@ -424,9 +424,9 @@
                 @endif
             </div>
             
-            <div role="tabpanel" class="tab-pane fade" id="liked" role="tabpanel" aria-labelledby="liked-tab">
+            <div role="tabpanel" class="tab-pane fade active heightzero" id="liked" role="tabpanel" aria-labelledby="liked-tab">
                 @if($result['most_liked']['product_data'])
-              <div id="owl_liked" class="owl-carousel"> 
+              <div id="owl_liked" class="owl-carousel owl_liked"> 
               @if($result['most_liked']['success']==1)
                 @foreach($result['most_liked']['product_data'] as $key=>$most_liked)
                 <div class="product">
@@ -490,17 +490,17 @@
                         
                         <div class="buttons">
                         	@if($most_liked->products_type==0)
-                                @if(!in_array($most_liked->products_id,$result['cartArray']))
+                                <!-- @if(!in_array($most_liked->products_id,$result['cartArray']))
                                     @if($most_liked->defaultStock==0)
                                         <button type="button" class="btn btn-block btn-danger" products_id="{{$most_liked->products_id}}">@lang('website.Out of Stock')</button>
-                                   @elseif($most_liked->products_min_order>1)
+                                   @elseif($most_liked->products_min_order>1) -->
                                    		 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$most_liked->products_slug)}}">@lang('website.View Detail')</a>
-                                    @else
+                                    <!-- @else
                                         <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$most_liked->products_id}}">@lang('website.Add to Cart')</button>
                                     @endif
                                 @else
                                     <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                @endif
+                                @endif -->
                             @elseif($most_liked->products_type==1)
                                 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$most_liked->products_slug)}}">@lang('website.View Detail')</a>
                             @elseif($most_liked->products_type==2)
@@ -590,4 +590,15 @@
     </div>
 </div>
 </section>
+<script src="{!! asset('resources/views/admin/plugins/jQuery/jquery.min.js') !!}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#liked-tab').click(function() {
+            $('#liked').removeClass('heightzero');
+        })
+        $('#special-tab').click(function() {
+            $('#special').removeClass('heightzero');
+        })
+    });
+</script>
 @endsection 

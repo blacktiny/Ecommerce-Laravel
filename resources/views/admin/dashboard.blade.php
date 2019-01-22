@@ -141,7 +141,7 @@
               <li class="{{ Request::is('admin/dashboard/last_year') ? 'active' : '' }}"><a href="{{ URL::to('admin/dashboard/last_year')}}">{{ trans('labels.lastYear') }}</a></li>
               <li class="{{ Request::is('admin/dashboard/last_month') ? 'active' : '' }}"><a href="{{ URL::to('admin/dashboard/last_month')}}">{{ trans('labels.LastMonth') }}</a></li>
               <li class="{{ Request::is('admin/dashboard/this_month') ? 'active' : '' }}"><a href="{{ URL::to('admin/dashboard/this_month')}}">{{ trans('labels.thisMonth') }}</a></li>
-              <li style="width: 33%"><a href="#" data-toggle="tab">
+              <li style="width: 378px"><a href="#" data-toggle="tab">
                   <div class="input-group ">
                   	 <div class="input-group-btn">
                         <button type="button" class="btn btn-default" aria-label="Help">{{ trans('labels.custom') }}</button> 
@@ -301,7 +301,7 @@
                       @foreach ($result['recentCustomers']  as $recent)
                       	
                        	@foreach ($recent  as $recentCustomers)
-                       	@if($i<=21)
+                       	@if($i<=8)
                         <li>
                             @if(!empty($recentCustomers->customers_picture))
                                <img src="{{asset('').$recentCustomers->customers_picture}}">

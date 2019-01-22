@@ -73,7 +73,7 @@
         </li>
          @endif
         @if(session('customers_view')==1  or auth()->guard('admin')->user()->adminType=='1')
-        <li class="{{ Request::is('admin/customers') ? 'active' : '' }}  {{ Request::is('admin/addcustomers') ? 'active' : '' }}  {{ Request::is('admin/editcustomers/*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/customers') ? 'active' : '' }}  {{ Request::is('admin/addcustomers') ? 'active' : '' }} {{ Request::is('admin/editcustomers/*') ? 'active' : '' }} {{ Request::is('admin/addaddress/*') ? 'active' : '' }}">
           <a href="{{ URL::to('admin/customers')}}">
             <i class="fa fa-users" aria-hidden="true"></i> <span>{{ trans('labels.link_customers') }}</span>
           </a>
@@ -225,13 +225,14 @@
         </li>
          @endif
         @if(session('manage_admins_view')==1 or auth()->guard('admin')->user()->adminType=='1')
-         <li class="treeview {{ Request::is('admin/admins') ? 'active' : '' }} {{ Request::is('admin/addadmins') ? 'active' : '' }} {{ Request::is('admin/editadmin/*') ? 'active' : '' }} {{ Request::is('admin/manageroles') ? 'active' : '' }} {{ Request::is('admin/addadminType') ? 'active' : '' }} {{ Request::is('admin/editadminType/*') ? 'active' : '' }}">
+         <li class="treeview {{ Request::is('admin/superadmins') ? 'active' : '' }} {{ Request::is('admin/editsuperadmin/*') ? 'active' : '' }} {{ Request::is('admin/admins') ? 'active' : '' }} {{ Request::is('admin/addadmins') ? 'active' : '' }} {{ Request::is('admin/editadmin/*') ? 'active' : '' }} {{ Request::is('admin/manageroles') ? 'active' : '' }} {{ Request::is('admin/addadminType') ? 'active' : '' }} {{ Request::is('admin/editadminType/*') ? 'active' : '' }} {{ Request::is('admin/categoriesroles') ? 'active' : '' }}">
           <a href="#">
             <i class="fa fa-users" aria-hidden="true"></i>
 <span> {{ trans('labels.Manage Admins') }}</span> <i class="fa fa-angle-left pull-right"></i>
           </a>
           
           <ul class="treeview-menu">
+          <li class="{{ Request::is('admin/superadmins') ? 'active' : '' }} {{ Request::is('admin/editsuperadmin/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/superadmins')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_superadmins') }}</a></li> 
           	<li class="{{ Request::is('admin/admins') ? 'active' : '' }} {{ Request::is('admin/addadmins') ? 'active' : '' }} {{ Request::is('admin/editadmin/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/admins')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_admins') }}</a></li> 
             <li class="{{ Request::is('admin/manageroles') ? 'active' : '' }} {{ Request::is('admin/addadminType') ? 'active' : '' }} {{ Request::is('admin/editadminType/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/manageroles')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_manage_roles') }}</a></li>
             

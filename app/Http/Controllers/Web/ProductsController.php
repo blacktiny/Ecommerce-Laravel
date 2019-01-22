@@ -300,6 +300,10 @@ class ProductsController extends DataController
 
 			$result['customers_categories'] = $arr_Category;
 		}
+
+		$requestPriceEmailContent = DB::table('alert_settings')->select('requestPriceEmail', 'requestPriceEmailContent')->get();
+		$result['requestPriceEmail'] = $requestPriceEmailContent[0]->requestPriceEmail;
+		$result['requestPriceEmailContent'] = $requestPriceEmailContent[0]->requestPriceEmailContent;
 		
 		return view("product-detail", $title)->with('result', $result); 
 	}

@@ -157,6 +157,13 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/customers', 'AdminCustomersController@customers');
 			Route::get('/addcustomers', 'AdminCustomersController@addcustomers');
 			Route::post('/addnewcustomers', 'AdminCustomersController@addnewcustomers');
+			Route::get('/editcustomers/{id}', 'AdminCustomersController@editcustomers');
+			Route::post('/updatecustomers', 'AdminCustomersController@updatecustomers');
+			Route::post('/deletecustomers', 'AdminCustomersController@deletecustomers');
+			Route::get('/addmanufacturers', 'AdminCustomersController@addmanufacturers');
+			Route::post('editmanufacturers', 'AdminProductsController@editmanufacturers');
+			Route::post('/updatemanufacturers', 'AdminProductsController@updatemanufacturers');
+			Route::post('/deletemanufacturers', 'AdminCustomersController@deletemanufacturers');
 
 
 			//add adddresses against customers
@@ -166,10 +173,6 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::post('/updateAddress', 'AdminCustomersController@updateAddress');
 			Route::post('/deleteAddress', 'AdminCustomersController@deleteAddress');
 			Route::post('/getZones', 'AddressController@getZones');
-			//edit customer
-			Route::get('/editcustomers/{id}', 'AdminCustomersController@editcustomers');
-			Route::post('/updatecustomers', 'AdminCustomersController@updatecustomers');
-			Route::post('/deletecustomers', 'AdminCustomersController@deletecustomers');
 
 			//orders
 			Route::get('/orders', 'AdminOrdersController@orders');		
@@ -371,9 +374,11 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/pageWebStatus', 'AdminPagesController@pageWebStatus');	
 			
 			//admin managements			
+			Route::get('/superadmins', 'AdminController@superadmins');
 			Route::get('/admins', 'AdminController@admins');
 			Route::get('/addadmins', 'AdminController@addadmins');
 			Route::post('/addnewadmin', 'AdminController@addnewadmin');
+			Route::get('/editsuperadmin/{id}', 'AdminController@editsuperadmin');
 			Route::get('/editadmin/{id}', 'AdminController@editadmin');
 			Route::post('/updateadmin', 'AdminController@updateadmin');
 			Route::post('/deleteadmin', 'AdminController@deleteadmin');

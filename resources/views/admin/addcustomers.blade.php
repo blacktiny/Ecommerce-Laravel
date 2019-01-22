@@ -249,7 +249,8 @@
 			var id = $(this).attr("id");
 			if (id == "btn-removeMachine") {
 				var parentId = $(this).parent().attr("id");
-				$('#' + parentId).hide();
+				$('#' + parentId).remove();
+        $curMachineId --;
 			}
 		});
 	}

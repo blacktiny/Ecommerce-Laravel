@@ -1,9 +1,9 @@
 /*!
  * our style
  */
- .users-list > li {
+ /* .users-list > li {
     width: 14.2% !important;
-}
+} */
 .users-list > li img {
     height: 45px !important;
 }

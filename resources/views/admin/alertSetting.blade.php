@@ -226,6 +226,31 @@
                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">{{ trans('labels.newsnotificationtext') }}</span>
                                 </div>
                             </div>  
+
+                            <hr>
+
+                            <div class="form-group">
+                           		<label for="shippingEnvironment" class="col-sm-2 col-md-3 control-label" style="">{{ trans('labels.requestPriceEmail') }}</label>
+                                <div class="col-sm-10 col-md-4">
+                                    <label class=" control-label" style="justify-content: flex-start;">
+                                          <input type="radio" name="requestPriceEmail" value="1" class="flat-red" @if($result['setting'][0]->requestPriceEmail==1) checked @endif > &nbsp;{{ trans('labels.Yes') }}
+                                    </label>
+    
+                                    <label class=" control-label" style="justify-content: flex-start;">
+                                          <input type="radio" name="requestPriceEmail" value="0" class="flat-red" @if($result['setting'][0]->requestPriceEmail==0) checked @endif >  &nbsp;{{ trans('labels.No') }}
+                                    </label>
+                                    <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">{{ trans('labels.requestPriceEmailText') }}</span>
+                                </div>
+                            </div>  
+
+                            <div class="form-group">
+                           		<label for="shippingEnvironment" class="col-sm-2 col-md-3 control-label" style="">{{ trans('labels.requestPriceEmailContent') }}</label>
+                                <div class="col-sm-10 col-md-4">
+                                      <textarea class="email-content" name="requestPriceEmailContent" style="justify-content: flex-start; width: 100%;">{{$result['setting'][0]->requestPriceEmailContent}}</textarea>
+
+                                    <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">{{ trans('labels.requestPriceEmailContentText') }}</span>
+                                </div>
+                            </div>  
                             
                               <!-- /.box-body -->
                             <div class="box-footer text-center">

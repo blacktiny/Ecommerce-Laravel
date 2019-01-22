@@ -158,35 +158,52 @@
                                     </div>
             
                                      <div class="product-price">
-                                     	@if(!empty($result['detail']['product_data'][0]->flash_price))
-                                        <span class="discount">
-                                                    {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->flash_price+0}} 
-                                         </span>
-                                        @elseif(!empty($result['detail']['product_data'][0]->discount_price))
-                                            <span class="discount">
-                                                    {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->discount_price+0}} 
-                                            </span>
-                                        @endif		
-                                        
-                                        <!--discount_price-->
-                                        <span class="price @if(!empty($result['detail']['product_data'][0]->discount_price) or !empty($result['detail']['product_data'][0]->flash_price)) line-through @else change_price @endif" >
-                                            @if (Auth::guard('customer')->check())
-                                                <?php
-                                                    $category_name = "";
-                                                    if(!empty($result['category_name']) and !empty($result['sub_category_name']))
-                                                        $category_name = $result['sub_category_name'];
-                                                    else if(!empty($result['category_name']) and empty($result['sub_category_name']))
-                                                        $category_name = $result['category_name'];
-                                                ?>
-                                                @if (in_array($category_name, $result['customers_categories']))
-                                                    {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->products_price+0}}
-                                                @else
-                                                    $0
+                                        @if (Auth::guard('customer')->check())
+                                            <?php
+                                                $category_name = "";
+                                                if(!empty($result['category_name']) and !empty($result['sub_category_name']))
+                                                $category_name = $result['sub_category_name'];
+                                                else if(!empty($result['category_name']) and empty($result['sub_category_name']))
+                                                $category_name = $result['category_name'];
+                                            ?>
+                                            @if (in_array($category_name, $result['customers_categories']))
+                                                @if(!empty($result['detail']['product_data'][0]->flash_price))
+                                                    <span class="discount">
+                                                        {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->flash_price+0}} 
+                                                    </span>
+                                                @elseif(!empty($result['detail']['product_data'][0]->discount_price))
+                                                    <span class="discount">
+                                                        {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->discount_price+0}} 
+                                                    </span>
                                                 @endif
+                                        
+                                                <!--discount_price-->
+                                                <span class="price @if(!empty($result['detail']['product_data'][0]->discount_price) or !empty($result['detail']['product_data'][0]->flash_price)) line-through @else change_price @endif" >
+                                                    {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->products_price+0}}
+                                                </span>
                                             @else
-                                                $0
+                                                @if ($web_setting[85]->value == 1)
+                                                    <?php
+                                                        $email = $result['requestPriceEmail'];
+                                                        $emailContent = $result['requestPriceEmailContent'];
+                                                        $product_name = $result['detail']['product_data'][0]->products_name;
+                                                        if ($email == 1) {
+                                                            $username = auth()->guard('customer')->user()->customers_firstname.' '.auth()->guard('customer')->user()->customers_lastname;
+                                                            $emailContent = str_replace('%user_name%', $username, $emailContent);
+                                                            $emailContent = str_replace('%product_name%', $result['detail']['product_data'][0]->products_name, $emailContent);
+                                                            $emailContent = str_replace('%url%', Request::url(), $emailContent);
+                                                        }
+                                                    ?>
+                                                    <a href="mailto: {{ $web_setting[86]->value }}?subject={{ $product_name }}
+                                                        &body={{$emailContent}}
+                                                        ">@lang('website.Request the price')</a>
+                                                @else
+                                                    <a href="/contact-us">@lang('website.Contact Us')</a>
+                                                @endif
                                             @endif
-                                        </span>                                    
+                                        @else
+                                            <a href="{{ URL::to('/login')}}">@lang('website.Login')</a>
+                                        @endif
                                                                 
                                         @if($result['detail']['product_data'][0]->products_min_order>0)
                                         	<span class="min-order-tag">
@@ -237,6 +254,14 @@
                                         @endif	
                                         
                                         <div class="form-inline product-box">
+                                            <?php
+                                                $category_name = "";
+                                                if(!empty($result['category_name']) and !empty($result['sub_category_name']))
+                                                    $category_name = $result['sub_category_name'];
+                                                else if(!empty($result['category_name']) and empty($result['sub_category_name']))
+                                                    $category_name = $result['category_name'];
+                                            ?>
+                                            @if (Auth::guard('customer')->check())
                                             <div class="form-group Qty" @if(!empty($result['detail']['product_data'][0]->flash_start_date) and $result['detail']['product_data'][0]->server_time < $result['detail']['product_data'][0]->flash_start_date ) style="display: none" @endif>
                                                 <label for="quantity" class="col-form-label">@lang('website.Quantity') </label>                        
                                                 <div class="input-group">						
@@ -249,36 +274,26 @@
                                                     </span>						
                                                 </div>
                                             </div>
-                                            
+                                            @if (in_array($category_name, $result['customers_categories']))
                                             <div class="price-box">
                                                 <span>@lang('website.Total Price')&nbsp;:</span>
                                                 <span class="total_price">
-                                                @if (Auth::guard('customer')->check())
-                                                    <?php
-                                                        $category_name = "";
-                                                        if(!empty($result['category_name']) and !empty($result['sub_category_name']))
-                                                            $category_name = $result['sub_category_name'];
-                                                        else if(!empty($result['category_name']) and empty($result['sub_category_name']))
-                                                            $category_name = $result['category_name'];
-                                                    ?>
-                                                    @if (in_array($category_name, $result['customers_categories']))
-                                                        @if(!empty($result['detail']['product_data'][0]->flash_price))
-                                                            {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->flash_price+0}}                                                @elseif(!empty($result['detail']['product_data'][0]->discount_price))
-                                                            {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->discount_price+0}}
-                                                        @else
-                                                            {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->products_price+0}}
-                                                        @endif
+                                                    @if(!empty($result['detail']['product_data'][0]->flash_price))
+                                                        {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->flash_price+0}}                                                @elseif(!empty($result['detail']['product_data'][0]->discount_price))
+                                                        {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->discount_price+0}}
                                                     @else
-                                                        $0
+                                                        {{$web_setting[19]->value}}{{$result['detail']['product_data'][0]->products_price+0}}
                                                     @endif
-                                                @else
-                                                    $0
-                                                @endif
                                                 </span>				
                                             </div>  
-                                           
+                                            @endif
+                                            @endif
                                             
-                                            <div class="buttons" style="margin-top: 30px;">    
+                                            <!-- @if (Auth::guard('customer')->check() && in_array($category_name, $result['customers_categories']))
+                                                <div class="buttons" style="margin-top: 30px;">
+                                            @else
+                                                <div class="buttons">
+                                            @endif
                                              @if(!empty($result['detail']['product_data'][0]->flash_start_date) and $result['detail']['product_data'][0]->server_time < $result['detail']['product_data'][0]->flash_start_date )
                                              
                                               @else
@@ -294,7 +309,7 @@
                                                      <button class="btn btn-danger stock-out-cart" hidden type="button">@lang('website.Out of Stock')</button>                                                     
                                                 @endif
                                               @endif
-                                            </div>   
+                                            </div>    -->
                                         </div>
                                     </form>								
                                 </div>	
@@ -365,18 +380,18 @@
                                                 print '<span class="new-tag">New</span>';
                                             }
                                             
-                                            if(!empty($products->discount_price)){
-                                                $discount_price = $products->discount_price;	
-                                                $orignal_price = $products->products_price;	
+                                            // if(!empty($products->discount_price)){
+                                            //     $discount_price = $products->discount_price;	
+                                            //     $orignal_price = $products->products_price;	
                                                 
-                                                if(($orignal_price+0)>0){
-													$discounted_price = $orignal_price-$discount_price;
-													$discount_percentage = $discounted_price/$orignal_price*100;
-												}else{
-													$discount_percentage = 0;
-												}
-                                                echo "<span class='discount-tag'>".(int)$discount_percentage."%</span>";
-                                            }
+                                            //     if(($orignal_price+0)>0){
+											// 		$discounted_price = $orignal_price-$discount_price;
+											// 		$discount_percentage = $discounted_price/$orignal_price*100;
+											// 	}else{
+											// 		$discount_percentage = 0;
+											// 	}
+                                            //     echo "<span class='discount-tag'>".(int)$discount_percentage."%</span>";
+                                            // }
                                         ?>
                                         
                                         <span class="tag text-center">
@@ -385,14 +400,14 @@
                                         </span>
                                         
                                         <h2 class="title text-center">{{$products->products_name}}</h2>                                            
-                                        <div class="price text-center">
+                                        <!-- <div class="price text-center">
                                             @if(!empty($products->discount_price))
                                                 {{$web_setting[19]->value}}{{$products->discount_price+0}}
                                                 <span>{{$web_setting[19]->value}}{{$products->products_price+0}}</span> 
                                             @else
                                                 {{$web_setting[19]->value}}{{$products->products_price+0}}
                                             @endif
-                                        </div>
+                                        </div> -->
                                                                                 
                                         <div class="product-hover">
                                             <div class="icons">
@@ -406,13 +421,13 @@
                                             
                                             <div class="buttons">
                                             	@if($products->products_type==0)
-                                                    @if(!in_array($products->products_id,$result['cartArray']))
+                                                    <!-- @if(!in_array($products->products_id,$result['cartArray']))
                                                         <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$products->products_id}}">@lang('website.Add to Cart')</button>
-                                                    @elseif($products->products_min_order>0)
+                                                    @elseif($products->products_min_order>0) -->
                                                          <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
-                                                    @else 
+                                                    <!-- @else 
                                                         <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                                    @endif
+                                                    @endif -->
                                                 @elseif($products->products_type==1)
                                                     <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
                                                 @elseif($products->products_type==2)

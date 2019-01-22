@@ -153,21 +153,30 @@ class CustomersController extends DataController
 		$title = array('pageTitle' => Lang::get("website.Profile"));
 		$result = array();	
 		$result['commonContent'] = $this->commonContent();
+		$result['industryTypes'] = $this->industryTypes();
+		$modelInfo = $this->getMachineModelInfo(auth()->guard('customer')->user()->customers_id);
+		$result['machine_model'] = $modelInfo;
 		
 		return view("profile", $title)->with('result', $result); 
 	}
 	
 	public function updateMyProfile(Request $request){
 		
-		$customers_id								=	auth()->guard('customer')->user()->customers_id; 
-		$customers_firstname            			=   $request->customers_firstname;
-		$customers_lastname           				=   $request->customers_lastname;			
-		//$customers_email_address    		   		=   $request->customers_email_address;	
-		$customers_fax          		   			=   $request->customers_fax;	
-		$customers_newsletter          		   		=   $request->customers_newsletter;	
-		$customers_telephone          		   		=   $request->customers_telephone;	
-		$customers_gender          		   			=   $request->customers_gender;	
-		$customers_dob          		   			=   $request->customers_dob;
+		$customers_id								=		auth()->guard('customer')->user()->customers_id; 
+		$customers_firstname        =   $request->customers_firstname;
+		$customers_lastname         =   $request->customers_lastname;			
+		//$customers_email_address  =   $request->customers_email_address;	
+		$customers_fax          		=   $request->customers_fax;	
+		$customers_newsletter       =   $request->customers_newsletter;	
+		$customers_telephone        =   $request->customers_telephone;	
+		$customers_gender          	=   $request->customers_gender;	
+		$customers_dob          		=   $request->customers_dob;
+		$customers_position         =   $request->position;
+		$customers_website          =   $request->website;
+		$customers_companyPhone     =   $request->companyPhone;
+		$customers_cellPhone        =   $request->cellPhone;
+		$customers_industry         =   $request->industry;
+		
 		$customers_info_date_account_last_modified 	=   date('y-m-d h:i:s');
 		
 		$extensions = array('gif','jpg','jpeg','png');
@@ -181,15 +190,35 @@ class CustomersController extends DataController
 		}	
 		
 		$customer_data = array(
-			'customers_firstname'			 =>  $customers_firstname,
-			'customers_lastname'			 =>  $customers_lastname,
-			'customers_fax'					 =>  $customers_fax,
-			'customers_newsletter'			 =>  $customers_newsletter,
-			'customers_telephone'			 =>  $customers_telephone,
-			'customers_gender'				 =>  $customers_gender,
-			'customers_dob'					 =>  $customers_dob,
-			'customers_picture'				 =>  $customers_picture
+			'customers_firstname'			=>  $customers_firstname,
+			'customers_lastname'			=>  $customers_lastname,
+			'customers_fax'						=>  $customers_fax,
+			'customers_newsletter'		=>  $customers_newsletter,
+			'customers_telephone'			=>  $customers_telephone,
+			'customers_gender'				=>  $customers_gender,
+			'customers_dob'					 	=>  $customers_dob,
+			'customers_picture'				=>  $customers_picture,
+			'customers_position'			=>  $customers_position,
+			'website'									=>  $customers_website,
+			'company_phone'						=>  $customers_companyPhone,
+			'customers_cellphone'			=>  $customers_cellPhone,
+			'industry_type'						=>  $customers_industry
 		);
+
+		//delete old manufacturer info
+		DB::table('machine_model')->where('customers_id', $customers_id)->delete();
+
+		//add new manufacturer info
+		$manu_data = array();
+		for ($i = 0; $i < count($request->manufacturer); $i ++) {
+			$manu_info = array();
+			$manu_info[Lang::get('customers_id')] = $customers_id;
+			$manu_info[Lang::get('manufacturer')] = $request->manufacturer[$i];
+			$manu_info[Lang::get('model')] = $request->machineModel[$i];
+			array_push($manu_data, $manu_info);
+		}
+
+		DB::table('machine_model')->insert($manu_data);
 					
 		//update into customer
 		DB::table('customers')->where('customers_id', $customers_id)->update($customer_data);
@@ -795,12 +824,6 @@ class CustomersController extends DataController
 		if($validator->fails()){
 			return redirect('signup')->withErrors($validator)->withInput();
 		}else{
-			$modelList = "";
-			if($request->machineModel) {
-				foreach($request->machineModel as $model) {
-					$modelList = $modelList . $model . "@%";
-				}
-			}
 			//echo "Value is completed";
 			$data = array(
 				'customers_firstname' => $request->firstName,
@@ -811,7 +834,6 @@ class CustomersController extends DataController
 				'website' => $request->website,
 				'company_phone' => $request->companyPhone,
 				'customers_cellphone' => $request->cellPhone,
-				'machine_model'=>$modelList,
 				'industry_type' => $request->industry,
 				'password' => Hash::make($password),
 				'customers_picture'				 =>  $profile_photo,
@@ -866,6 +888,19 @@ class CustomersController extends DataController
 						
 						$customers = DB::table('customers')->where('customers_id', $customer->customers_id)->get();
 						$result['customers'] = $customers;
+
+						// add manufacturers info
+						$manu_data = array();
+						for ($i = 0; $i < count($request->manufacturer); $i ++) {
+							$manu_info = array();
+							$manu_info[Lang::get('customers_id')] = $customer->customers_id;
+							$manu_info[Lang::get('manufacturer')] = $request->manufacturer[$i];
+							$manu_info[Lang::get('model')] = $request->machineModel[$i];
+							array_push($manu_data, $manu_info);
+						}
+
+						DB::table('machine_model')->insert($manu_data);
+
 						//email and notification			
 						$myVar = new AlertController();
 						$alertSetting = $myVar->createUserAlert($customers);

@@ -72,17 +72,17 @@
                             
                             <div class="buttons">
                                 @if($products->products_type==0)
-                                    @if(!in_array($products->products_id,$result['cartArray']))
+                                    <!-- @if(!in_array($products->products_id,$result['cartArray']))
                                        @if($products->defaultStock==0)
                                             <button type="button" class="btn btn-danger" products_id="{{$products->products_id}}">@lang('website.Out of Stock')</button>
-                                        @elseif($products->products_min_order>1)
+                                        @elseif($products->products_min_order>1) -->
                                    		 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
-                                   		@else
+                                   		<!-- @else
                                             <button type="button" class="btn btn-secondary cart" products_id="{{$products->products_id}}">@lang('website.Add to Cart')</button>
                                         @endif
                                     @else
                                         <button type="button" class="btn btn-secondary active">@lang('website.Added')</button>
-                                    @endif
+                                    @endif -->
                                 @elseif($products->products_type==1)
                                     <a class="btn btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
                                 @elseif($products->products_type==2)
@@ -156,17 +156,17 @@
                                         
                                        	<div class="buttons">
                                             @if($products->products_type==0)
-                                                @if(!in_array($products->products_id,$result['cartArray']))
+                                                <!-- @if(!in_array($products->products_id,$result['cartArray']))
                                                     @if($products->defaultStock==0)
                                                         <button type="button" class="btn btn-block btn-danger" products_id="{{$products->products_id}}">@lang('website.Out of Stock')</button>
-                                                @elseif($products->products_min_order>1)
+                                                @elseif($products->products_min_order>1) -->
                                    		 			<a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
-                                   				@else
+                                   				<!-- @else
                                                         <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$products->products_id}}">@lang('website.Add to Cart')</button>
                                                 @endif
                                                 @else
                                                     <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                                @endif
+                                                @endif -->
                                             @elseif($products->products_type==1)
                                                 <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
                                             @elseif($products->products_type==2)
@@ -279,17 +279,17 @@
                                 
                                 <div class="buttons">                                    
                                     @if($special->products_type==0)
-                                        @if(!in_array($special->products_id,$result['cartArray']))
+                                        <!-- @if(!in_array($special->products_id,$result['cartArray']))
                                             @if($special->defaultStock==0)
                                                 <button type="button" class="btn btn-block btn-danger" products_id="{{$special->products_id}}">@lang('website.Out of Stock')</button>
-                                            @elseif($products->products_min_order>1)
+                                            @elseif($products->products_min_order>1) -->
                                              <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
-                                            @else
+                                            <!-- @else
                                                 <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$special->products_id}}">@lang('website.Add to Cart')</button>
                                             @endif
                                         @else
                                             <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                        @endif
+                                        @endif -->
                                     @elseif($special->products_type==1)
                                         <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$special->products_slug)}}">@lang('website.View Detail')</a>
                                     @elseif($special->products_type==2)
@@ -447,17 +447,17 @@
                                 
                                 <div class="buttons">
                                      @if($products->products_type==0)
-                                        @if(!in_array($products->products_id,$result['cartArray']))
+                                        <!-- @if(!in_array($products->products_id,$result['cartArray']))
                                             @if($products->defaultStock==0)
                                                 <button type="button" class="btn btn-block btn-danger" products_id="{{$products->products_id}}">@lang('website.Out of Stock')</button>
-                                            @elseif($products->products_min_order>1)
+                                            @elseif($products->products_min_order>1) -->
                                              <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
-                                            @else
+                                            <!-- @else
                                                 <button type="button" class="btn btn-block btn-secondary cart" products_id="{{$products->products_id}}">@lang('website.Add to Cart')</button>
                                             @endif
                                         @else
                                             <button type="button" class="btn btn-block btn-secondary active">@lang('website.Added')</button>
-                                        @endif
+                                        @endif -->
                                     @elseif($products->products_type==1)
                                         <a class="btn btn-block btn-secondary" href="{{ URL::to('/product-detail/'.$products->products_slug)}}">@lang('website.View Detail')</a>
                                     @elseif($products->products_type==2)

@@ -695,4 +695,10 @@ class DataController extends Controller
 		$types = DB::table('industry_type')->get();
 		return($types);
 	}
+
+	//get customers' machine_model info
+	public function getMachineModelInfo($customers_id) {
+		$modelInfo = DB::table('machine_model')->where('customers_id', $customers_id)->select('manufacturer', 'model')->get();
+		return $modelInfo;
+	}
 }

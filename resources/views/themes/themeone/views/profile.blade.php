@@ -120,6 +120,14 @@
                                             <span class="help-block error-content" hidden>@lang('website.Please enter your last name')</span>
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label for="position" class="col-sm-4 col-form-label">@lang('website.Position')</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="position" placeholder="@lang('website.Position')" class="form-control field-validate" id="position" value="{{ auth()->guard('customer')->user()->customers_position }}">
+                                            <span class="help-block error-content" hidden>@lang('website.Please enter your position')</span>
+                                        </div>
+                                    </div>
                                   
                                     <div class="form-group row">
                                         <label for="gender" class="col-sm-4 col-form-label">@lang('website.Gender')</label>
@@ -146,6 +154,58 @@
                                             <span class="help-block error-content" hidden>@lang('website.Please enter your valid phone number')</span>
                                         </div>
                                     </div>
+                                    <div class="form-group row">					
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">@lang('website.Website')</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="website" id="website" class="form-control field-validate"  value="{{ auth()->guard('customer')->user()->website }}">
+                                            <span class="help-block error-content" hidden>@lang('website.Please enter your website')</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">@lang('website.Company phone')</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="companyPhone" id="companyPhone" class="form-control field-validate"  value="{{ auth()->guard('customer')->user()->company_phone }}" onkeypress="return isNumberKey(event)">
+                                            <span class="help-block error-content" hidden>@lang('website.Please enter your company phone')</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">@lang('website.Cell phone')</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="cellPhone" id="cellPhone" class="form-control field-validate"  value="{{ auth()->guard('customer')->user()->customers_cellphone }}" onkeypress="return isNumberKey(event)">
+                                            <span class="help-block error-content" hidden>@lang('website.Please enter your Cell phone')</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inlineFormCustomSelect" class="col-sm-4 col-form-label">@lang('website.Industry')</label>
+                                        <div class="col-sm-8">
+                                            <select class="custom-select field-validate" name="industry" id="industryTypeSelect">
+                                                <option selected value="">@lang('website.Choose...')</option>
+                                            </select>
+                                            <span class="help-block error-content" hidden>@lang('website.Please select your industry')</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">@lang('website.Machine Model')</label>
+                                        <div id="manufacturers" class="col-sm-8">
+                                            <div class="col-sm-12" style="padding: 0; margin-bottom: 25px;">
+                                                <div>
+                                                    <label style="width: 100px;">Manufacturer</label>
+                                                    <input type="text" name="manufacturer[]" id="manufacturer0" class="form-control field-validate" style="display: inline; width: calc(100% - 38px - 100px);" value="{{ old('manufacturer') }}">
+                                                    <button type="button" id="btn-addManufacturer" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px; margin-left: 3px;">+</button>
+                                                </div>
+                                                <div style="margin-top: 15px;">
+                                                    <label style="width: 100px;">Model</label>
+                                                    <input type="text" name="machineModel[]" id="machineModel0" class="form-control field-validate" style="display: inline; width: calc(100% - 34px - 103px);" value="">
+                                                </div>
+                                            </div>
+                                            <span class="help-block error-content" hidden>@lang('website.Please enter your machine model')</span>
+                                        </div>
+                                    </div>
+
                                     <div class="button">
                                         <button type="submit" class="btn btn-dark">@lang('website.Update')</button>
                                     </div>
@@ -174,6 +234,102 @@
 		</div>		
 	</div>
 </section>
+<script src="{!! asset('resources/views/admin/plugins/jQuery/jquery.min.js') !!}"></script>
+<script type="text/javascript">
+
+	var $curManufacturerId = 1;
+
+	function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+	}
+
+	function addMachineModelField() {
+		var $manufacturers = $('#manufacturers');
+		$manufacturers.append('<div id="manufacturer-info' + $curManufacturerId + '" class="col-sm-12" style="padding: 0;  margin-bottom: 25px;">' +
+				'<div>' + 
+					'<label style="width: 100px;">Manufacturer</label>' + 
+					'<input type="text" name="manufacturer[]" id="manufacturer' + $curManufacturerId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 38px - 100px);" value="{{ old('manufacturer') }}">' + 
+					'<button type="button" id="btn-removeManufacturer' + $curManufacturerId + '" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px; margin-left: 3px;">-</button>' + 
+				'</div>' + 
+				'<div style="margin-top: 15px;">' + 
+					'<label style="width: 100px;">Model</label>' + 
+					'<input type="text" name="machineModel[]" id="machineModel' + $curManufacturerId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 34px - 103px);" value="">' + 
+				'</div>' + 
+			'</div>');
+		$manufacturers.change();
+		$curManufacturerId ++;
+
+		$("button").click(function() {
+			var id = $(this).attr("id");
+			if (id.indexOf("btn-removeManufacturer") != -1) {
+				var parentId = $(this).parent().parent().attr("id");
+				$('#' + parentId).remove();
+				$curManufacturerId --;
+			}
+		});
+    }
+    
+    function addMachineModelFieldList() {
+        var $manufacturers = $('#manufacturers');
+        var i = 1;
+        @foreach($result['machine_model'] as $model)
+            if (i != 1) {
+                $manufacturers.append('<div id="manufacturer-info' + $curManufacturerId + '" class="col-sm-12" style="padding: 0;  margin-bottom: 25px;">' +
+                        '<div>' + 
+                            '<label style="width: 100px;">Manufacturer</label>' + 
+                            '<input type="text" name="manufacturer[]" id="manufacturer' + $curManufacturerId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 38px - 100px);" value="{{$model->manufacturer}}">' + 
+                            '<button type="button" id="btn-removeManufacturer' + $curManufacturerId + '" class="btn btn-dark" style="position: absolute; width: 35px; margin-top: 1px; margin-left: 3px;">-</button>' + 
+                        '</div>' + 
+                        '<div style="margin-top: 15px;">' + 
+                            '<label style="width: 100px;">Model</label>' + 
+                            '<input type="text" name="machineModel[]" id="machineModel' + $curManufacturerId + '" class="form-control field-validate" style="display: inline; width: calc(100% - 34px - 103px);" value="{{$model->model}}">' + 
+                        '</div>' + 
+                    '</div>');
+                $manufacturers.change();
+                $curManufacturerId ++;
+
+                $("button").click(function() {
+                    var id = $(this).attr("id");
+                    if (id.indexOf("btn-removeManufacturer") != -1) {
+                        var parentId = $(this).parent().parent().attr("id");
+                        $('#' + parentId).remove();
+                        $curManufacturerId --;
+                    }
+                });
+            } else {
+                i ++;
+            }
+        @endforeach
+	}
+
+	$("button").click(function() {
+		var id = $(this).attr("id");
+		if (id == "btn-addManufacturer") {
+			addMachineModelField();
+		}
+	});
+
+	$(function () {
+        //industry
+        var $industryType = $('#industryTypeSelect');
+		@foreach($result['industryTypes'] as $type)
+            @if($type->id == auth()->guard('customer')->user()->industry_type)
+                $industryType.append('<option id=' + '{{$type->type_name}}' + ' selected value=' + '{{$type->id}}' + '>' + '{{$type->type_name}}' + '</option>');
+            @else
+                $industryType.append('<option id=' + '{{$type->type_name}}' + ' value=' + '{{$type->id}}' + '>' + '{{$type->type_name}}' + '</option>');
+            @endif
+		@endforeach
+        $industryType.change();
+        
+        //machine model
+        $('#manufacturer0').val('{{$result['machine_model'][0]->manufacturer}}');
+        $('#machineModel0').val('{{$result['machine_model'][0]->model}}');
+        addMachineModelFieldList();
+	});
+</script>
 @endsection 	
 
 

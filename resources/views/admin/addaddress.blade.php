@@ -82,7 +82,8 @@
          	 </div>
           
          	 <div class="box-footer text-center">
-				<a href="{{ URL::to('admin/customers')}}" class="btn btn-primary">{{ trans('labels.SaveComplete') }}</a>
+        <a href="{{ URL::to('admin/customers')}}" class="btn btn-primary">{{ trans('labels.SaveComplete') }}</a>
+        <a href="{{ URL::to('admin/editcustomers/'.$data['customers_id'])}}" class="btn btn-primary">{{ trans('labels.back') }}</a>
 			</div>
           <!-- /.box-body --> 
         </div>

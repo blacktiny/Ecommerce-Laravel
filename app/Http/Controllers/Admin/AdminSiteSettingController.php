@@ -587,6 +587,8 @@ class AdminSiteSettingController extends Controller
 				'news_notification'					=>	$request->news_notification,
 				'order_email'						=>	$request->order_email,
 				'order_notification'				=>	$request->order_notification,
+				'requestPriceEmail'				=>	$request->requestPriceEmail,
+				'requestPriceEmailContent'				=>	$request->requestPriceEmailContent,
 				]);
 		
 		$message = Lang::get("labels.alertSettingUpdateMessage");

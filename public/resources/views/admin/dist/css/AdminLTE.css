@@ -1285,6 +1285,11 @@ a:focus {
   align-items: center;
   /* justify-content: flex-end; */
 }
+.email-content {
+  width: 100%;
+  height: 150px;
+  font-size: 12px;
+}
 .form-group {
   display: flex;
   justify-content: center;
@@ -1769,6 +1774,12 @@ a:focus {
   position: absolute;
   right: 10px;
   top: 5px;
+}
+@media (max-width: 576px) {
+  .box-header > .box-tools {
+    position: relative;
+    font-size: 12px;
+  }
 }
 .box-header > .box-tools [data-toggle="tooltip"] {
   position: relative;
@@ -2521,6 +2532,17 @@ a:focus {
   background: transparent;
   margin: 0;
 }
+@media (max-width: 376px) {
+  .nav-tabs-custom > .nav-tabs > li > a,
+  .nav-tabs-custom > .nav-tabs > li > a:hover {
+    background: transparent;
+    margin: 0;
+    font-size: 12px;
+  }
+  .nav-tabs-custom > .nav-tabs > li > a {
+    padding: 5px 5px;
+  }
+}
 .nav-tabs-custom > .nav-tabs > li > a:hover {
   color: #999;
 }
@@ -2960,6 +2982,21 @@ table.text-center th {
   float: left;
   padding: 10px;
   text-align: center;
+}
+@media (max-width: 486px) {
+  .users-list > li {
+    width: 50%;
+  }
+}
+@media (min-width: 486px) {
+  .users-list > li {
+    width: 33%;
+  }
+}
+@media (min-width: 1120px) {
+  .users-list > li {
+    width: 16.6%;
+  }
 }
 .users-list > li img {
   border-radius: 50%;
@@ -4700,6 +4737,10 @@ table.text-center th {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+.users-list {
+  display: flex;
+  flex-wrap: wrap;
 }
 .list-group-unbordered > .list-group-item {
   border-left: 0;

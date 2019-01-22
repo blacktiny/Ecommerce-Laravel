@@ -416,6 +416,7 @@ return [
 
 	'Login'=>'Login',
 
+	'Request the price'=>'Request the price',
 		
 
 	'Create An Account'=>'Create an Account',
@@ -467,6 +468,14 @@ return [
 
 
 	'Machine Model'=>'Machine Model',
+
+	
+
+	'customersId' => 'customers_id',
+
+	'manufacturer' => 'manufacturer',
+
+	'model' => 'model',
 
 		
 

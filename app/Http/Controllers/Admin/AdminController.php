@@ -700,6 +700,37 @@ class AdminController extends Controller
 		return redirect()->back()->withErrors([$message]);
 		}
 	}
+
+	//superadmins
+	public function superadmins(Request $request){
+		if(session('manage_admins_view')==0){
+			print Lang::get("labels.You do not have to access this route");
+		}else{
+			
+		$title = array('pageTitle' => Lang::get("labels.ListingCustomers"));
+		$language_id            				=   '1';			
+		
+		$result = array();
+		$message = array();
+		$errorMessage = array();
+		
+		$admins = DB::table('administrators')
+			->leftJoin('countries','countries.countries_id','=', 'administrators.country')
+			->leftJoin('zones','zones.zone_id','=', 'administrators.state')
+			->leftJoin('admin_types','admin_types.admin_type_id','=','administrators.adminType')
+			->select('administrators.*', 'countries.*', 'zones.*','admin_types.*')
+			->where('email','!=','vectorcoder@gmail.com')
+			->where('adminType','=','1')
+			->paginate(50);
+			
+				
+		$result['message'] = $message;
+		$result['errorMessage'] = $errorMessage;
+		$result['admins'] = $admins;
+		
+		return view("admin.superadmins",$title)->with('result', $result);
+		}
+	}
 	
 	//admins
 	public function admins(Request $request){
@@ -804,6 +835,42 @@ class AdminController extends Controller
 		}
 		}
 	}
+
+	//editsuperadmin
+	public function editsuperadmin(Request $request){
+		
+		$title = array('pageTitle' => Lang::get("labels.EditAdmin"));
+		$myid        	 =   $request->id;			
+		
+		$result = array();
+		$message = array();
+		$errorMessage = array();
+		
+		//get function from other controller
+		$myVar = new AddressController();
+		$result['countries'] = $myVar->getAllCountries();
+		
+		$adminTypes = DB::table('admin_types')->where('isActive', 1)->where('admin_type_id','!=','1')->get();
+		$result['adminTypes'] = $adminTypes;
+		
+		$result['myid'] = $myid;
+		
+		$admins = DB::table('administrators')->where('myid','=', $myid)->get();
+		$zones = DB::table('zones')->where('zone_country_id','=', $admins[0]->country)->get();
+		
+		if(count($zones)>0){
+			$result['zones'] = $zones;
+		}else{
+			$zones = new \stdClass;
+			$zones->zone_id = "others";
+			$zones->zone_name = "Others";
+			$result['zones'][0] = $zones;
+		}
+		
+		
+		$result['admins'] = $admins;
+		return view("admin.editsuperadmin",$title)->with('result', $result);
+	}
 	
 	//editadmin
 	public function editadmin(Request $request){
@@ -839,6 +906,64 @@ class AdminController extends Controller
 		
 		$result['admins'] = $admins;
 		return view("admin.editadmin",$title)->with('result', $result);
+	}
+
+	//update super admin
+	public function updatesuperadmin(Request $request){
+		if(session('manage_admins_update')==0){
+			print Lang::get("labels.You do not have to access this route");
+		}else{
+			
+		//get function from other controller
+		$myVar = new AdminSiteSettingController();	
+		$extensions = $myVar->imageType();			
+		$myid = $request->myid;
+		$result = array();
+		$message = array();
+		$errorMessage = array();
+		
+		//check email already exists
+		$existEmail = DB::table('administrators')->where([['email','=',$request->email],['myid','!=',$myid]])->get();
+		if(count($existEmail)>0){
+			$errorMessage = Lang::get("labels.Email address already exist");
+			return redirect()->back()->with('errorMessage', $errorMessage);
+		}else{
+			
+			if($request->hasFile('newImage') and in_array($request->newImage->extension(), $extensions)){
+				$image = $request->newImage;
+				$fileName = time().'.'.$image->getClientOriginalName();
+				$image->move('resources/views/admin/images/admin_profile/', $fileName);
+				$uploadImage = 'resources/views/admin/images/admin_profile/'.$fileName; 
+			}	else{
+				$uploadImage = $request->oldImage;
+			}		
+			
+			$admin_data = array(
+				'first_name'		 		=>   $request->first_name,
+				'last_name'			 		=>   $request->last_name,
+				'phone'	 					=>	 $request->phone,
+				'address'   				=>   $request->address,
+				'city'		   				=>   $request->city,
+				'state'		   				=>   $request->state,
+				'address'   				=>   $request->address,
+				'country'		   			=>   $request->country,
+				'zip'   					=>   $request->zip,
+				'email'	 					=>   $request->email,
+				'isActive'		 	 		=>   $request->isActive,
+				'image'	 					=>	 $uploadImage,
+			);
+			
+			if($request->changePassword == 'yes'){
+				$admin_data['password'] = Hash::make($request->password);
+			}
+			
+			$customers_id = DB::table('administrators')->where('myid', '=', $myid)->update($admin_data);
+					
+			
+			$message = Lang::get("labels.Admin has been updated successfully");
+			return redirect()->back()->with('message', $message);
+		}
+		}
 	}
 	
 	//update admin

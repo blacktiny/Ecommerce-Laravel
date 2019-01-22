@@ -3,7 +3,7 @@
 <div class="content-wrapper"> 
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1> {{ trans('labels.EditCustomers') }} <small>{{ trans('labels.EditCustomers') }}...</small> </h1>
+    <h1> {{ trans('labels.Customers') }} <small>{{ $data['customers'][0]->customers_firstname}} {{ $data['customers'][0]->customers_lastname }}</small> </h1>
     <ol class="breadcrumb">
       <li><a href="{{ URL::to('admin/dashboard/this_month')}}"><i class="fa fa-dashboard"></i> {{ trans('labels.breadcrumb_dashboard') }}</a></li>
       <li><a href="{{ URL::to('admin/customers')}}"><i class="fa fa-users"></i> {{ trans('labels.ListingAllCustomers') }}</a></li>
@@ -337,9 +337,11 @@
 
 		$("button").click(function() {
 			var id = $(this).attr("id");
+      $(this).remove();
 			if (id == "btn-removeMachine") {
 				var parentId = $(this).parent().attr("id");
-				$('#' + parentId).hide();
+				$('#' + parentId).remove();
+        $curMachineId --;
 			}
 		});
 	}
@@ -358,7 +360,8 @@
         var id = $(this).attr("id");
         if (id == "btn-removeMachine") {
           var parentId = $(this).parent().attr("id");
-          $('#' + parentId).hide();
+          $('#' + parentId).remove();
+          $curMachineId --;
         }
       });
     }
